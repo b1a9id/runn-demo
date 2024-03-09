@@ -1,12 +1,12 @@
 package com.b1a9idps.runndemo.application.service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Service;
 
+import com.b1a9idps.runndemo.presentation.reponse.ShopListResponse;
 import com.b1a9idps.runndemo.presentation.reponse.ShopResponse;
 
 @Service
@@ -17,10 +17,11 @@ public class ShopService {
         return new ShopResponse(v, "name"+ v, foundedOn);
     };
 
-    public List<ShopResponse> list() {
-        return IntStream.rangeClosed(1, 5)
+    public ShopListResponse list() {
+        var shops = IntStream.rangeClosed(1, 5)
                 .mapToObj(SHOP_RESPONSE_FUNCTION)
                 .toList();
+        return new ShopListResponse(shops);
     }
 
     public ShopResponse findById(int id) {
