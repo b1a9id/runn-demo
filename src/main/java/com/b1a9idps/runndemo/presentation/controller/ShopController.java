@@ -42,8 +42,8 @@ public class ShopController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public void create(@RequestBody @Validated ShopCreateRequest request) {
-        shopService.create(request);
+    public ShopResponse create(@RequestBody @Validated ShopCreateRequest request) {
+        return shopService.create(request);
     }
 
     @DeleteMapping("{id}")

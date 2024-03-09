@@ -17,10 +17,10 @@ import com.b1a9idps.runndemo.presentation.request.ShopListRequest;
 @Service
 public class ShopService {
 
-    private static final IntFunction<ShopResponse> SHOP_RESPONSE_FUNCTION = v -> {
-        var foundedOn = LocalDate.of(2024, 1, 1);
-        return new ShopResponse(v, "name"+ v, foundedOn);
-    };
+    private static final LocalDate FOUNDED_ON = LocalDate.of(2024, 1, 1);
+
+    private static final IntFunction<ShopResponse> SHOP_RESPONSE_FUNCTION =
+            v -> new ShopResponse(v, "name"+ v, FOUNDED_ON);
 
     private static final Map<Integer, ShopResponse> SHOPS = IntStream.rangeClosed(0, 100)
             .mapToObj(SHOP_RESPONSE_FUNCTION)
@@ -39,9 +39,9 @@ public class ShopService {
         return SHOPS.get(id);
     }
 
-    public void create(ShopCreateRequest request) {
+    public ShopResponse create(ShopCreateRequest request) {
         var id = SHOPS.size() + 1;
-        SHOPS.put(id, SHOP_RESPONSE_FUNCTION.apply(id));
+        return SHOPS.put(id, new ShopResponse(id, request.name(), request.foundedOn()));
     }
 
     public void delete(Integer id) {
