@@ -1,0 +1,26 @@
+desc: JSONテンプレートを利用してデータの柔軟性を高める
+runners:
+  req:
+    endpoint: http://localhost:8080/api
+
+steps:
+  bindUuid:
+    desc: "ダミーのUUIDを発行してname_suffixという変数名でアクセス可能とする"
+    bind:
+      name_suffix: faker.UUID()
+  createShop:
+    desc: "加盟店を登録する"
+    include:
+      path: create-shop.yml
+      vars:
+        request: "json://shop.json.template"
+  deleteShop:
+    desc: "加盟店を削除する"
+    req:
+      /shops/{{ steps.createShop.id }}:
+        delete:
+          body:
+            application/json: null
+    test: |
+      # ステータスコードが204であること
+      current.res.status == 204
