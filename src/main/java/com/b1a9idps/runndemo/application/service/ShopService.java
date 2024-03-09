@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.b1a9idps.runndemo.presentation.reponse.ShopListResponse;
 import com.b1a9idps.runndemo.presentation.reponse.ShopResponse;
+import com.b1a9idps.runndemo.presentation.request.ShopListRequest;
 
 @Service
 public class ShopService {
@@ -17,8 +18,10 @@ public class ShopService {
         return new ShopResponse(v, "name"+ v, foundedOn);
     };
 
-    public ShopListResponse list() {
-        var shops = IntStream.rangeClosed(1, 5)
+    public ShopListResponse list(ShopListRequest request) {
+        int count = request.count() != null ? request.count() : 5;
+
+        var shops = IntStream.rangeClosed(1, count)
                 .mapToObj(SHOP_RESPONSE_FUNCTION)
                 .toList();
         return new ShopListResponse(shops);
