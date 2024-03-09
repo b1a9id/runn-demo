@@ -34,3 +34,27 @@ steps:
       current.res.status == 200
       # 正しい加盟店IDで取得できること
       && current.res.body.id == shops[i].id
+  getFirstShop:
+    desc: "1番目の加盟店の詳細を取得"
+    req:
+      /shops/{{ shops[0].id }}:
+        get:
+          body:
+            application/json: null
+    test: |
+      # ステータスコードが200であること
+      current.res.status == 200
+      # 正しい加盟店IDで取得できること
+      && steps.getFirstShop.res.body.id == shops[0].id
+  getSecondShop:
+    desc: "2番目の加盟店の詳細を取得"
+    req:
+      /shops/{{ shops[1].id }}:
+        get:
+          body:
+            application/json: null
+    test: |
+      # ステータスコードが200であること
+      current.res.status == 200
+      # 正しい加盟店IDで取得できること
+      && steps.getSecondShop.res.body.id == shops[1].id
