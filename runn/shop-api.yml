@@ -2,42 +2,14 @@ desc: runnのチュートリアル
 runners:
   req: http://localhost:8080/api
 
-vars:
-  shop_id: 1
-  count: 5
-
 steps:
   listShops:
     desc: "加盟店の一覧を取得"
-    req:
-      /shops?count={{ vars.count }}:
-        get:
-          body:
-            application/json: null
-    test: |
-      # ステータスコードが200であること
-      current.res.status == 200
-      # 加盟店の数が正しいこと
-      && len(current.res.body.shops) == vars.count
-    bind:
-      shops: current.res.body.shops
-  getAllShops:
-    desc: "加盟店一覧から順次加盟店の詳細を取得"
-    loop: len(shops)
-    req:
-      /shops/{{ shops[i].id }}:
-        get:
-          body:
-            application/json: null
-    test: |
-      # ステータスコードが200であること
-      current.res.status == 200
-      # 正しい加盟店IDで取得できること
-      && current.res.body.id == shops[i].id
+    include: list-shops.yml
   getFirstShop:
     desc: "1番目の加盟店の詳細を取得"
     req:
-      /shops/{{ shops[0].id }}:
+      /shops/{{ steps.listShops.shops[0].id }}:
         get:
           body:
             application/json: null
@@ -45,11 +17,11 @@ steps:
       # ステータスコードが200であること
       current.res.status == 200
       # 正しい加盟店IDで取得できること
-      && steps.getFirstShop.res.body.id == shops[0].id
+      && steps.getFirstShop.res.body.id == steps.listShops.shops[0].id
   getSecondShop:
     desc: "2番目の加盟店の詳細を取得"
     req:
-      /shops/{{ shops[1].id }}:
+      /shops/{{ steps.listShops.shops[1].id }}:
         get:
           body:
             application/json: null
@@ -57,4 +29,4 @@ steps:
       # ステータスコードが200であること
       current.res.status == 200
       # 正しい加盟店IDで取得できること
-      && steps.getSecondShop.res.body.id == shops[1].id
+      && steps.getSecondShop.res.body.id == steps.listShops.shops[1].id

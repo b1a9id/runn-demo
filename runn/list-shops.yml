@@ -1,0 +1,22 @@
+desc: 単体のシナリオとして定義
+runners:
+  req: http://localhost:8080/api
+
+vars:
+  count: 5
+
+steps:
+  listShops:
+    desc: "加盟店の一覧を取得"
+    req:
+      /shops?count={{ vars.count }}:
+        get:
+          body:
+            application/json: null
+    test: |
+      # ステータスコードが200であること
+      current.res.status == 200
+      # 加盟店の数が正しいこと
+      && len(current.res.body.shops) == vars.count
+    bind:
+      shops: current.res.body.shops
