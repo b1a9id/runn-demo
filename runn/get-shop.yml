@@ -1,0 +1,20 @@
+desc: 変数を受け取るシナリオを定義
+runners:
+  req: http://localhost:8080/api
+
+vars:
+  shop_id: 1
+
+steps:
+  getShop:
+    desc: "加盟店の詳細を取得"
+    req:
+      /shops/{{ vars.shop_id }}:
+        get:
+          body:
+            application/json: null
+    test: |
+      # ステータスコードが200であること
+      current.res.status == 200
+      # 正しい加盟店IDで取得できること
+      && current.res.body.id == vars.shop_id

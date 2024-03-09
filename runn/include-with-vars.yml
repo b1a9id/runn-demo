@@ -1,0 +1,20 @@
+desc: includeしたシナリオの変数を変更して共通化
+runners:
+  req: http://localhost:8080/api
+
+steps:
+  listShops:
+    desc: "加盟店の一覧を取得"
+    include: list-shops.yml
+  getFirstShop:
+    desc: "1番目の加盟店の詳細を取得"
+    include:
+      path: get-shop.yml
+      vars:
+        shop_id: "{{ steps.listShops.shops[0].id }}"
+  getSecondShop:
+    desc: "2番目の加盟店の詳細を取得"
+    include:
+      path: get-shop.yml
+      vars:
+        shop_id: "{{ steps.listShops.shops[1].id }}"
