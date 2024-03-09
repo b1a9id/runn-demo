@@ -2,10 +2,13 @@ desc: includeしたシナリオの変数を変更して共通化
 runners:
   req: http://localhost:8080/api
 
+vars:
+  count: 5
+
 steps:
   listShops:
-    desc: "加盟店の一覧を取得"
-    include: list-shops.yml
+    desc: "varsで指定された件数分、加盟店の一覧を取得"
+    include: include-list-shops.yml
   getFirstShop:
     desc: "1番目の加盟店の詳細を取得"
     include:

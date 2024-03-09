@@ -3,7 +3,8 @@ runners:
   req: http://localhost:8080/api
 
 vars:
-  count: 5
+  count: "{{ parent.vars.count }}"
+if: included
 
 steps:
   listShops:
