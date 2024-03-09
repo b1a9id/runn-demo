@@ -1,0 +1,31 @@
+desc: runnのチュートリアル
+runners:
+  req: http://localhost:8080/api
+
+vars:
+  shop_id: 1
+  count: 5
+
+steps:
+  - desc: "加盟店の一覧を取得"
+    req:
+      /shops?count={{ vars.count }}:
+        get:
+          body:
+            application/json: null
+    test: |
+      # ステータスコードが200であること
+      current.res.status == 200
+      # 加盟店の数が正しいこと
+      && len(current.res.body.shops) == vars.count
+  - desc: "加盟店の詳細を取得"
+    req:
+      /shops/{{ previous.res.body.shops[0].id }}:
+        get:
+          body:
+            application/json: null
+    test: |
+      # ステータスコードが200であること
+      current.res.status == 200
+      # 正しい加盟店IDで取得できること
+      && current.res.body.id == previous.res.body.shops[0].id
