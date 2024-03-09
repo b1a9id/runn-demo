@@ -21,10 +21,11 @@ steps:
       && len(current.res.body.shops) == vars.count
     bind:
       shops: current.res.body.shops
-  getFirstShop:
-    desc: "1番目の加盟店の詳細を取得"
+  getAllShops:
+    desc: "加盟店一覧から順次加盟店の詳細を取得"
+    loop: len(shops)
     req:
-      /shops/{{ shops[0].id }}:
+      /shops/{{ shops[i].id }}:
         get:
           body:
             application/json: null
@@ -32,16 +33,4 @@ steps:
       # ステータスコードが200であること
       current.res.status == 200
       # 正しい加盟店IDで取得できること
-      && steps.getFirstShop.res.body.id == shops[0].id
-  getSecondShop:
-    desc: "2番目の加盟店の詳細を取得"
-    req:
-      /shops/{{ shops[1].id }}:
-        get:
-          body:
-            application/json: null
-    test: |
-      # ステータスコードが200であること
-      current.res.status == 200
-      # 正しい加盟店IDで取得できること
-      && steps.getSecondShop.res.body.id == shops[1].id
+      && current.res.body.id == shops[i].id
