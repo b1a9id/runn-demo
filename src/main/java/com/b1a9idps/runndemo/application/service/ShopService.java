@@ -41,7 +41,10 @@ public class ShopService {
 
     public ShopResponse create(ShopCreateRequest request) {
         var id = SHOPS.size() + 1;
-        return SHOPS.put(id, new ShopResponse(id, request.name(), request.foundedOn()));
+        var res = new ShopResponse(id, request.name(), request.foundedOn());
+        SHOPS.put(id, res);
+
+        return res;
     }
 
     public void delete(Integer id) {

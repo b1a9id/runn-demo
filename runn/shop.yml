@@ -1,0 +1,33 @@
+desc: リクエストJSONを外部ファイル化
+runners:
+  req:
+    endpoint: http://localhost:8080/api
+
+vars:
+  createRequest: "json://create.json"
+
+steps:
+  createShop:
+    desc: "加盟店を登録する"
+    req:
+      /shops:
+        post:
+          body:
+            application/json: "{{ vars.createRequest }}"
+    test: |
+      # ステータスコードが200であること
+      current.res.status == 201
+      # 加盟店が作成されること
+      && current.res.body.name == vars.createRequest.name
+    bind:
+      id: current.res.body.id
+  deleteShop:
+    desc: "加盟店を削除する"
+    req:
+      /shops/{{ id }}:
+        delete:
+          body:
+            application/json: null
+    test: |
+      # ステータスコードが204であること
+      current.res.status == 204
