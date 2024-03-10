@@ -1,0 +1,29 @@
+{
+  "shops": [
+    {
+      "foundedOn": "2024-01-01",
+      "id": 0,
+      "name": "name0"
+    },
+    {
+      "foundedOn": "2024-01-01",
+      "id": 1,
+      "name": "name1"
+    },
+    {
+      "foundedOn": "2024-01-01",
+      "id": 2,
+      "name": "name2"
+    },
+    {
+      "foundedOn": "2024-01-01",
+      "id": 3,
+      "name": "name3"
+    },
+    {
+      "foundedOn": "2024-01-01",
+      "id": 4,
+      "name": "name4"
+    }
+  ]
+}
