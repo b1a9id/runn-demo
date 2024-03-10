@@ -1,0 +1,112 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://127.0.0.1:8080/api
+  description: Generated server url
+paths:
+  /shops:
+    get:
+      tags:
+      - shop-controller
+      operationId: list
+      parameters:
+      - name: request
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/ShopListRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ShopListResponse'
+    post:
+      tags:
+      - shop-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShopCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ShopResponse'
+  /shops/{id}:
+    get:
+      tags:
+      - shop-controller
+      operationId: findById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ShopResponse'
+    delete:
+      tags:
+      - shop-controller
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "204":
+          description: No Content
+components:
+  schemas:
+    ShopCreateRequest:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        foundedOn:
+          type: string
+          format: date
+    ShopResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        foundedOn:
+          type: string
+          format: date
+    ShopListRequest:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int32
+    ShopListResponse:
+      type: object
+      properties:
+        shops:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShopResponse'
