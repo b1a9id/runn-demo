@@ -5,6 +5,7 @@ runners:
     openapi3: ../shop-api-spec.yaml
     skipValidateRequest: false
     skipValidateResponse: false
+    trace: true
 
 vars:
   count: 5
