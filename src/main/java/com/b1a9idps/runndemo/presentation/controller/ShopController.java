@@ -3,11 +3,11 @@ package com.b1a9idps.runndemo.presentation.controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,9 +30,9 @@ public class ShopController {
         this.shopService = shopService;
     }
 
-    @GetMapping
-    public ShopListResponse list(@ModelAttribute ShopListRequest request) {
-        return shopService.list(request);
+    @GetMapping(produces = "application/json")
+    public ShopListResponse list(@RequestParam Integer count) {
+        return shopService.list(new ShopListRequest(count));
     }
 
     @GetMapping("{id}")
