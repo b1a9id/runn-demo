@@ -3,30 +3,31 @@ info:
   title: OpenAPI definition
   version: v0
 servers:
-- url: http://127.0.0.1:8080/api
-  description: Generated server url
+  - url: http://127.0.0.1:8080/api
+    description: Generated server url
 paths:
   /shops:
     get:
       tags:
-      - shop-controller
+        - shop-controller
       operationId: list
       parameters:
-      - name: request
-        in: query
-        required: true
-        schema:
-          $ref: '#/components/schemas/ShopListRequest'
+        - name: count
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
       responses:
         "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ShopListResponse'
     post:
       tags:
-      - shop-controller
+        - shop-controller
       operationId: create
       requestBody:
         content:
@@ -44,15 +45,15 @@ paths:
   /shops/{id}:
     get:
       tags:
-      - shop-controller
+        - shop-controller
       operationId: findById
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int32
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
       responses:
         "200":
           description: OK
@@ -62,15 +63,15 @@ paths:
                 $ref: '#/components/schemas/ShopResponse'
     delete:
       tags:
-      - shop-controller
+        - shop-controller
       operationId: delete
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int32
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
       responses:
         "204":
           description: No Content
@@ -78,7 +79,7 @@ components:
   schemas:
     ShopCreateRequest:
       required:
-      - name
+        - name
       type: object
       properties:
         name:
@@ -97,12 +98,6 @@ components:
         foundedOn:
           type: string
           format: date
-    ShopListRequest:
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int32
     ShopListResponse:
       type: object
       properties:

@@ -2,7 +2,7 @@ desc: OpenAPIのSpec通りにリクエストとレスポンスになっている
 runners:
   req:
     endpoint: http://localhost:8080/api
-    openapi3: http://localhost:8080/api/v3/api-docs
+    openapi3: ../shop-api-spec.yaml
     skipValidateRequest: false
     skipValidateResponse: false
 
