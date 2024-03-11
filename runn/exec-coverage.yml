@@ -1,0 +1,10 @@
+desc: OpenAPIのSpecのカバレジを計測する
+steps:
+  execCoverage:
+    desc: "カバレッジを取得する"
+    exec:
+      command: runn coverage open-api-verification.yml
+    test: |
+      # 実行結果が正常なこと
+      current.exit_code == 0
+    dump: current.stdout
