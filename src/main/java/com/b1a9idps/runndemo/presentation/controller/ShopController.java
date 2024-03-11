@@ -30,7 +30,7 @@ public class ShopController {
         this.shopService = shopService;
     }
 
-    @GetMapping(produces = "application/json")
+    @GetMapping
     public ShopListResponse list(@RequestParam Integer count) {
         return shopService.list(new ShopListRequest(count));
     }
