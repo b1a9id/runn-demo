@@ -1,0 +1,24 @@
+desc: OpenAPIのSpec通りにリクエストとレスポンスになっているか？チェックする
+runners:
+  req:
+    endpoint: http://localhost:8080/api
+    openapi3: http://localhost:8080/api/v3/api-docs
+    skipValidateRequest: false
+    skipValidateResponse: false
+
+vars:
+  count: 5
+
+steps:
+  listShops:
+    desc: "加盟店の一覧を取得"
+    req:
+      /shops?count={{ vars.count }}:
+        get:
+          header:
+            accept: application/json
+    test: |
+      # ステータスコードが200であること
+      current.res.status == 200
+      # 加盟店の数が正しいこと
+      && len(current.res.body.shops) == vars.count
